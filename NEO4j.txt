@@ -1,0 +1,17 @@
+MATCH (p:Person{name:"Lana Wachowski"})RETURN p
+
+MATCH (n:Person)-[r:ACTED_IN]->(m:Movie) where m.released>1979 AND m.released<1990 AND n.born>1960 return n.name,r.roles
+
+MATCH (n:Person)-[:ACTED_IN]->(m:Movie) SET n:Actor
+
+MATCH (n:Person)-[r:ACTED_IN]->(m:Movie) return n.name as acteur, count(m)  order by count(m) DESC
+
+MATCH (n:Person)-[:ACTED_IN]->(:Movie)<-[:DIRECTED]-(n:Person) return n
+
+MATCH ()-[r:REVIEWED]->(m:Movie) return m.title, avg(r.rating) order by avg(r.rating) desc
+
+MATCH ()-[r:REVIEWED]->(m:Movie) return m.title, avg(r.rating) order by avg(r.rating) desc
+
+MATCH (p1:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(p2:Person)
+WHERE p1 <> p2
+RETURN DISTINCT p1.name AS actor1, p2.name AS actor2 
